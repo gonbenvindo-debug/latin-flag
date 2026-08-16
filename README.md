@@ -44,13 +44,16 @@ o título. A descrição é sempre exatamente `RATE THIS 🔥`:
 }
 ```
 
-O workflow verifica a fila a cada 15 minutos. Os horários são 12:00, 17:00 e
-22:00 no fuso `Europe/Lisbon`, com no máximo três publicações por dia. Quando
-um item fica pronto, o vídeo é enviado para um Release público; o URL desse
-asset é usado pela API do Instagram e fica registado em `queue.json`.
+O agendamento é feito pela automação Codex **Haki Vault Instagram queue**, que
+corre às 12:00, 17:00 e 22:00 no fuso `Europe/Lisbon`, com no máximo três
+publicações por dia. O GitHub fica apenas com o código, a fila e os assets
+temporários dos vídeos. Quando um item fica pronto, o MP4 é enviado para um
+Release público; o URL desse asset é usado pela API do Instagram e fica
+registado em `queue.json`.
 
 Para testar manualmente, usa **Actions → Instagram publisher → Run workflow** e
-escolhe `auto`, `prepare` ou `publish`.
+escolhe `auto`, `prepare` ou `publish`. O workflow manual é apenas um fallback;
+não cria outro agendamento.
 
 ## Estados da fila
 
