@@ -9,6 +9,7 @@ A automação ativa chama-se **Haki Vault Instagram queue**.
 3. A automação do Codex escolhe o próximo horário livre: 12:00, 17:00 ou 22:00, no fuso de Lisboa.
 4. No horário, descarrega, converte, guarda o MP4 temporariamente num Release e publica no Instagram.
 5. Consulta `queue.json`: o item passa para `published` e recebe o permalink.
+6. O Release temporário é apagado depois da confirmação.
 
 Exemplo:
 
