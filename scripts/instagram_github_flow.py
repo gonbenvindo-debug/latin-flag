@@ -325,7 +325,9 @@ def prepare_pending(items: list[dict[str, Any]]) -> None:
             item["status"] = "failed"
             item["last_error"] = "Item sem URL"
             continue
-        scheduled = choose_next_slot(items)
+        # A manually supplied future time is used for one-off tests. Normal
+        # queue items leave scheduled_at null and receive the next 12/17/22 slot.
+        scheduled = parse_dt(item.get("scheduled_at")) or choose_next_slot(items)
         item["id"] = item_id(item)
         item["title"] = item.get("title") or item["id"]
         item["caption"] = CAPTION
