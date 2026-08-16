@@ -27,6 +27,7 @@ import requests
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = Path(__file__).resolve().parent
 QUEUE_FILE = ROOT / "queue.json"
 WORK_DIR = ROOT / ".work"
 LOCAL_TZ = ZoneInfo("Europe/Lisbon")
@@ -224,6 +225,22 @@ def github_headers(token: str, content_type: str | None = None) -> dict[str, str
     return headers
 
 
+def local_hardcoded_token() -> str:
+    """Load an optional ignored local token file for non-cloud runs.
+
+    GitHub Actions uses INSTAGRAM_ACCESS_TOKEN from Actions Secrets. A local
+    `scripts/instagram_token.py` can be used when the script is run privately
+    on a computer; it is ignored by git and is never uploaded by this project.
+    """
+    token_file = SCRIPT_DIR / "instagram_token.py"
+    if not token_file.exists():
+        return ""
+    namespace: dict[str, Any] = {}
+    exec(compile(token_file.read_text(encoding="utf-8"), str(token_file), "exec"), namespace)
+    value = namespace.get("ACCESS_TOKEN", "")
+    return value.strip() if isinstance(value, str) else ""
+
+
 def create_release_and_upload(item: dict[str, Any], video_path: Path) -> tuple[str, str]:
     token = os.environ.get("GITHUB_TOKEN")
     repository = os.environ.get("GITHUB_REPOSITORY")
@@ -352,7 +369,7 @@ def prepare_pending(items: list[dict[str, Any]]) -> None:
 
 
 def publish_due(items: list[dict[str, Any]]) -> None:
-    token = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
+    token = os.environ.get("INSTAGRAM_ACCESS_TOKEN") or local_hardcoded_token()
     if not token:
         print("INSTAGRAM_ACCESS_TOKEN ainda não está configurado; publicação ignorada.", flush=True)
         return
