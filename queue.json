@@ -19,7 +19,10 @@
     "url": "https://www.instagram.com/p/DZ7qPaAsyvF/",
     "title": "Instagram Reel - DZ7qPaAsyvF",
     "caption": "RATE THIS 🔥",
-    "status": "pending",
-    "scheduled_at": "2026-08-17T00:08:00+01:00"
+    "status": "ready",
+    "scheduled_at": "2026-08-17T00:08:00+01:00",
+    "release_tag": "ig-instagram-dz7qpaasyvf-1786921666",
+    "video_url": "https://github.com/gonbenvindo-debug/latin-flag/releases/download/ig-instagram-dz7qpaasyvf-1786921666/instagram-reel-dz7qpaasyvf.mp4",
+    "prepared_at": "2026-08-17T00:07:49+01:00"
   }
 ]
