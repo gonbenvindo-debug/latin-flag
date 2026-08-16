@@ -18,6 +18,16 @@ Value: o teu token do Instagram
 `GITHUB_TOKEN` já é fornecido automaticamente pelo GitHub Actions. Não deve ser
 colocado no código nem no `queue.json`.
 
+Para executar o script diretamente num computador privado, também existe um
+fallback local opcional. Cria `scripts/instagram_token.py` com:
+
+```python
+ACCESS_TOKEN = "cola-a-chave-aqui"
+```
+
+Esse ficheiro está no `.gitignore` e não é enviado para o GitHub. No Actions, o
+valor usado continua a ser `INSTAGRAM_ACCESS_TOKEN`.
+
 ## Como adicionar vídeos
 
 Adiciona um item à lista de `queue.json`, usando o URL do YouTube ou Instagram e
