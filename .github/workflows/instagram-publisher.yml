@@ -1,13 +1,6 @@
 name: Instagram publisher
 
 on:
-  push:
-    paths:
-      - "queue.json"
-      - "scripts/**"
-      - ".github/workflows/instagram-publisher.yml"
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       mode:
