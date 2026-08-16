@@ -49,7 +49,8 @@ corre às 12:00, 17:00 e 22:00 no fuso `Europe/Lisbon`, com no máximo três
 publicações por dia. O GitHub fica apenas com o código, a fila e os assets
 temporários dos vídeos. Quando um item fica pronto, o MP4 é enviado para um
 Release público; o URL desse asset é usado pela API do Instagram e fica
-registado em `queue.json`.
+registado em `queue.json`. Depois da confirmação da publicação, o Release é
+apagado automaticamente.
 
 Para testar manualmente, usa **Actions → Instagram publisher → Run workflow** e
 escolhe `auto`, `prepare` ou `publish`. O workflow manual é apenas um fallback;
