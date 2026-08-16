@@ -279,6 +279,30 @@ def create_release_and_upload(item: dict[str, Any], video_path: Path) -> tuple[s
     return str(asset["browser_download_url"]), release_tag
 
 
+def delete_release(release_tag: str | None) -> None:
+    """Remove the temporary public Release after Instagram has imported it."""
+    token = os.environ.get("GITHUB_TOKEN")
+    repository = os.environ.get("GITHUB_REPOSITORY")
+    if not token or not repository or not release_tag:
+        return
+    lookup = requests.get(
+        f"{GITHUB_API}/repos/{repository}/releases/tags/{release_tag}",
+        headers=github_headers(token),
+        timeout=60,
+    )
+    if lookup.status_code == 404:
+        return
+    lookup.raise_for_status()
+    release_id = lookup.json().get("id")
+    if release_id:
+        response = requests.delete(
+            f"{GITHUB_API}/repos/{repository}/releases/{release_id}",
+            headers=github_headers(token),
+            timeout=60,
+        )
+        response.raise_for_status()
+
+
 def instagram_request(method: str, path: str, token: str, **kwargs: Any) -> dict[str, Any]:
     params = kwargs.pop("params", {})
     params["access_token"] = token
@@ -393,6 +417,7 @@ def publish_due(items: list[dict[str, Any]]) -> None:
             item["instagram_media_id"] = result.get("id")
             item["instagram_permalink"] = result.get("permalink")
             item["caption"] = CAPTION
+            delete_release(item.get("release_tag"))
             item.pop("last_error", None)
             print(f"Publicado: {result.get('permalink', result.get('id'))}", flush=True)
         except Exception as exc:
